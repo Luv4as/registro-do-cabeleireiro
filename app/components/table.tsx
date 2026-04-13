@@ -1,9 +1,16 @@
 
+"use client";
+
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { useClients } from "../hooks/useClients";
 
 export function TableComponent() {
+  const { clients, loading, error } = useClients();
+
   return (
     <div className="overflow-x-auto">
+      {loading && <p className="mb-4 text-sm text-gray-500">Carregando clientes...</p>}
+      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
       <Table hoverable={true}>
         <TableHead>
           <TableRow>
@@ -22,43 +29,26 @@ export function TableComponent() {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              Apple MacBook Pro 17
-            </TableCell>
-            <TableCell>Sliver</TableCell>
-            <TableCell>Laptop</TableCell>
-            <TableCell>$2999</TableCell>
-            <TableCell>
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Edit
-              </a>
-            </TableCell>
-          </TableRow>
-          <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              Microsoft Surface Pro
-            </TableCell>
-            <TableCell>White</TableCell>
-            <TableCell>Laptop PC</TableCell>
-            <TableCell>$1999</TableCell>
-            <TableCell>
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Edit
-              </a>
-            </TableCell>
-          </TableRow>
-          <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">Magic Mouse 2</TableCell>
-            <TableCell>Black</TableCell>
-            <TableCell>Accessories</TableCell>
-            <TableCell>$99</TableCell>
-            <TableCell>
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Edit
-              </a>
-            </TableCell>
-          </TableRow>
+          {clients.map((client) => (
+            <TableRow key={client.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                {client.id}
+              </TableCell>
+              <TableCell>{client.nome}</TableCell>
+              <TableCell>{client.ultimoCorte}</TableCell>
+              <TableCell>{client.tipoCorte}</TableCell>
+              <TableCell>{client.tipoCabelo}</TableCell>
+              <TableCell>{client.servicosFeitos}</TableCell>
+              <TableCell>{client.produtosUsados}</TableCell>
+              <TableCell>{client.telefone}</TableCell>
+              <TableCell>{client.email}</TableCell>
+              <TableCell>
+                <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                  Edit
+                </a>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
