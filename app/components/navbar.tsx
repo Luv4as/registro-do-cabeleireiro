@@ -1,13 +1,12 @@
 "use client"
 
-import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import { Navbar, NavbarBrand, NavbarToggle } from "flowbite-react";
 import Link from "next/link";
 
 export function NavbarComponent() {
   return (
     <Navbar fluid rounded>
       <NavbarBrand as={Link} href="">
-        
       </NavbarBrand>
       <NavbarToggle />
       <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginLeft: 'auto', marginRight: 'auto' }}>
