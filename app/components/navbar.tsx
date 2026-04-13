@@ -2,6 +2,7 @@
 
 import { Navbar, NavbarBrand, NavbarToggle } from "flowbite-react";
 import Link from "next/link";
+import { logout } from "../lib/api/service/auth";
 
 export function NavbarComponent() {
   return (
@@ -13,6 +14,7 @@ export function NavbarComponent() {
         <a href="#" className="text-white hover:text-gray-300">Calendário</a>
         <a href="#" className="text-white hover:text-gray-300">Clientes</a>
       </div>
+      <a href="/login" onClick={() => {logout()}} className="text-white hover:text-gray-300">Logout</a>
     </Navbar>
   );
 }
