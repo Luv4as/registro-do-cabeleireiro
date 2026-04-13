@@ -1,6 +1,6 @@
-import { NavbarComponent } from "../components/navbar";
+import { NavbarComponent } from "../../components/navbar";
 
-export default function PagesLayout({
+export default function ProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

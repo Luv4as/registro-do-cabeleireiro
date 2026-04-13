@@ -11,8 +11,8 @@ export function NavbarComponent() {
       </NavbarBrand>
       <NavbarToggle />
       <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginLeft: 'auto', marginRight: 'auto' }}>
-        <a href="#" className="text-white hover:text-gray-300">Calendário</a>
-        <a href="#" className="text-white hover:text-gray-300">Clientes</a>
+        <a href="/calendario" className="text-white hover:text-gray-300">Calendário</a>
+        <a href="/clientes" className="text-white hover:text-gray-300">Clientes</a>
       </div>
       <a href="/login" onClick={() => {logout()}} className="text-white hover:text-gray-300">Logout</a>
     </Navbar>

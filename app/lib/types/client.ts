@@ -1,12 +1,12 @@
 export interface Client {
   id: number;
-  nome: string;
-  ultimoCorte: string;
-  tipoCorte: string;
-  tipoCabelo: string;
-  servicosFeitos: string;
-  produtosUsados: string;
-  telefone: string;
+  name: string;
+  lastCut: string;
+  cutType: string;
+  hairType: string;
+  servicesHad: string;
+  productsUsed: string;
+  phone: string;
   email: string;
 }
 

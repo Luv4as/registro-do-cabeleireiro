@@ -3,6 +3,7 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { useClients } from "../hooks/useClients";
+import { maskCelular } from "../lib/utils/masks";
 
 export function TableComponent() {
   const { clients, loading, error } = useClients();
@@ -34,13 +35,13 @@ export function TableComponent() {
               <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                 {client.id}
               </TableCell>
-              <TableCell>{client.nome}</TableCell>
-              <TableCell>{client.ultimoCorte}</TableCell>
-              <TableCell>{client.tipoCorte}</TableCell>
-              <TableCell>{client.tipoCabelo}</TableCell>
-              <TableCell>{client.servicosFeitos}</TableCell>
-              <TableCell>{client.produtosUsados}</TableCell>
-              <TableCell>{client.telefone}</TableCell>
+              <TableCell>{client.name}</TableCell>
+              <TableCell>{client.lastCut}</TableCell>
+              <TableCell>{client.cutType}</TableCell>
+              <TableCell>{client.hairType}</TableCell>
+              <TableCell>{client.servicesHad}</TableCell>
+              <TableCell>{client.productsUsed}</TableCell>
+              <TableCell>{maskCelular(client.phone)}</TableCell>
               <TableCell>{client.email}</TableCell>
               <TableCell>
                 <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
