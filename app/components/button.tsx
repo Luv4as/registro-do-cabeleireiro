@@ -7,7 +7,7 @@ interface ButtonComponentProps {
   color?: string;
 }
 
-export async function ButtonComponent({ text, onClick, color = "blue" }: ButtonComponentProps) {
+export function ButtonComponent({ text, onClick, color = "blue" }: ButtonComponentProps) {
   return (
     <div className="flex flex-wrap gap-2">
       <Button color={color} onClick={onClick}>{text}</Button>

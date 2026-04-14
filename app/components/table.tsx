@@ -1,12 +1,33 @@
-
 "use client";
 
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { useClients } from "../hooks/useClients";
 import { maskCelular } from "../lib/utils/masks";
+import ModalComponent from "./modal";
+import { useState } from "react";
 
 export function TableComponent() {
-  const { clients, loading, error } = useClients();
+  const { clients, loading, error, deleteClient } = useClients();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
+  const [selectedClientName, setSelectedClientName] = useState("");
+
+  const handleOpenDeleteModal = (id: number, name: string) => {
+    setSelectedClientId(id);
+    setSelectedClientName(name);
+    setOpenDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedClientId === null) {
+      return;
+    }
+
+    await deleteClient(String(selectedClientId));
+    setOpenDeleteModal(false);
+    setSelectedClientId(null);
+    setSelectedClientName("");
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -27,6 +48,9 @@ export function TableComponent() {
             <TableHeadCell>
               <span className="sr-only">Editar</span>
             </TableHeadCell>
+            <TableHeadCell>
+              <span className="sr-only">Deletar</span>
+            </TableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
@@ -45,13 +69,32 @@ export function TableComponent() {
               <TableCell>{client.email}</TableCell>
               <TableCell>
                 <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                  Edit
+                  Editar
                 </a>
+              </TableCell>
+              <TableCell>
+                <button
+                  type="button"
+                  onClick={() => handleOpenDeleteModal(client.id, client.name)}
+                  className="font-medium text-red-600 hover:underline dark:text-red-500">
+                  Deletar
+                </button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      <ModalComponent
+        header="Confirmar exclusao"
+        text={`Tem certeza que deseja deletar o cliente ${selectedClientName}?`}
+        modalShow={openDeleteModal}
+        btnCancel="Cancelar"
+        OnCancel={() => setOpenDeleteModal(false)}
+        btnConfirm="Sim, deletar"
+        OnConfirm={handleConfirmDelete}
+        OnClose={() => setOpenDeleteModal(false)}
+      />
     </div>
   );
 }
