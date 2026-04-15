@@ -40,7 +40,7 @@ export default function CadastroAdminPage() {
       <form onSubmit={handleRegister} className="flex max-w-md min-w-1/3 flex-col gap-4">
       <InputComponent
         label="Nome Completo"
-        placeholder="Seu nome completo"
+        placeholder="Nome completo"
         type="text"
         required
         OnChange={(e) => setName(e.target.value)}></InputComponent>

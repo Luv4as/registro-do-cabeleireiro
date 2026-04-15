@@ -61,7 +61,6 @@ export default function CadastroClientePage() {
           label="Tipo de corte"
           placeholder="Tipo de corte (ex: caminho, social, estilo)"
           type="text"
-          required
           OnChange={(e) => setCutType(e.target.value)}></InputComponent>
         </div>
 
@@ -69,7 +68,6 @@ export default function CadastroClientePage() {
         label="Útimo corte"
         placeholder="Data do último corte (ex: liso, cacheado, crespo)"
         type="date"
-        required
         OnChange={(e) => setLastCut(e.target.value)}></InputComponent>
         
         <div className="flex flex-row justify-between">
@@ -77,13 +75,11 @@ export default function CadastroClientePage() {
           label="Serviços realizados"
           placeholder="Serviços que o cliente já recebeu"
           type="text"
-          required
           OnChange={(e) => setServicesHad(e.target.value)}></InputComponent>
           <InputComponent
           label="Produtos utilizados"
           placeholder="Produtos que o cliente já utilizou"
           type="text"
-          required
           OnChange={(e) => setProductsUsed(e.target.value)}></InputComponent>
         </div>
         <div className="flex flex-row justify-between">

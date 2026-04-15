@@ -9,7 +9,7 @@ type RegisterClientPayload = {
     isAdmin: boolean;
     lastCut?: string;
     cutType?: string;
-    hairType?: string;
+    hairType: string;
     servicesHad?: string;
     productsUsed?: string;
 };

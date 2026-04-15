@@ -13,6 +13,7 @@ export function NavbarComponent() {
       <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginLeft: 'auto', marginRight: 'auto' }}>
         <a href="/calendario" className="text-white hover:text-gray-300">Calendário</a>
         <a href="/clientes" className="text-white hover:text-gray-300">Clientes</a>
+        <a href="/cadastro-admin" className="text-white hover:text-gray-300">Cadastro Admin</a>
       </div>
       <a href="/login" onClick={() => {logout()}} className="text-white hover:text-gray-300">Logout</a>
     </Navbar>
