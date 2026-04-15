@@ -6,7 +6,7 @@ import { Button } from "flowbite-react/components/Button";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
 
-export default function CadastroPage() {
+export default function CadastroClientePage() {
   const router = useRouter();
 
   const [name, setName] = useState("");
