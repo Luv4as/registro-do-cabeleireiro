@@ -1,7 +1,8 @@
 'use client'
 
 import InputComponent from "@/app/components/input";
-import { registerClient } from "@/app/lib/api/service/auth";
+import { registerAdmin } from "@/app/lib/api/service/auth";
+import { maskCelular } from "@/app/lib/utils/masks";
 import { Button } from "flowbite-react/components/Button";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
@@ -22,7 +23,8 @@ export default function CadastroAdminPage() {
       setLoading(true);
   
       try{
-        await registerClient({ name, email, phone, password, isAdmin: false });
+        const isAdmin = true;
+        await registerAdmin( name, email, phone, password, isAdmin);
         router.push("/clientes");
   
       } catch (err) {
@@ -53,7 +55,9 @@ export default function CadastroAdminPage() {
         placeholder="(00) 00000-0000"
         type="tel"
         required
-        OnChange={(e) => setPhone(e.target.value)}></InputComponent>
+        value={phone}
+        maxLength={15}
+        OnChange={(e) => setPhone(maskCelular(e.target.value))}></InputComponent>
         <InputComponent
         label="Senha"
         placeholder="........"

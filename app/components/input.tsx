@@ -5,6 +5,8 @@ interface InputProps {
     type: string;
     placeholder: string;
     required?: boolean;
+    value?: string;
+    maxLength?: number;
     OnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -20,6 +22,8 @@ export default function InputComponent(props: InputProps) {
             type={props.type} 
             placeholder={props.placeholder} 
             required={props.required} 
+            value={props.value}
+            maxLength={props.maxLength}
             onChange= {props.OnChange} 
         />
     </div>

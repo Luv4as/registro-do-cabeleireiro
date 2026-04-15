@@ -2,16 +2,16 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3
 
 type RegisterClientPayload = {
     createdByAdminId?: string;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  isAdmin: boolean;
-  lastCut?: string;
-  cutType?: string;
-  hairType?: string;
-  servicesHad?: string;
-  productsUsed?: string;
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+    isAdmin: boolean;
+    lastCut?: string;
+    cutType?: string;
+    hairType?: string;
+    servicesHad?: string;
+    productsUsed?: string;
 };
 
 type JwtPayload = {
