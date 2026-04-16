@@ -5,7 +5,6 @@ import { useClients } from "../hooks/useClients";
 import { maskCelular } from "../lib/utils/masks";
 import ModalComponent from "./modal";
 import { useState } from "react";
-import { clientsService } from "../lib/api/service/clients";
 
 export function TableComponent() {
   const { clients, loading, error, deleteClient } = useClients();
