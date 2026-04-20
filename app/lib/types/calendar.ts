@@ -3,3 +3,11 @@ export type CalendarDatesResponse = {
   dates: string[];
   monthsWithEvents: number[];
 };
+
+export type AppointmentData = {
+  date: string;
+  time: string;
+  clientName: string;
+  clientId: number;
+  service: string;
+}

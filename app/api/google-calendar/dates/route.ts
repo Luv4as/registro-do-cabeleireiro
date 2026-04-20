@@ -104,3 +104,30 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+export async function POST(request: Request) {
+    const calendarId = process.env.CALENDAR_ID;
+    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+    const privateKey = getServiceAccountKey();
+    const year = parseYear(new URL(request.url).searchParams.get("year"));
+
+    if (!calendarId || !clientEmail || !privateKey) {
+    return NextResponse.json(
+      { error: "Configuracao do Google Calendar incompleta no .env" },
+      { status: 500 }
+    );
+  }
+
+  try {
+
+    const auth = new google.auth.JWT({
+      email: clientEmail,
+      key: privateKey,
+      scopes: ["https://www.googleapis.com/auth/calendar.readonly"],
+    });
+
+    
+  }catch{
+
+  }
+}

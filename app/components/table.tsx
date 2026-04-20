@@ -38,7 +38,8 @@ export function TableComponent() {
           <TableRow>
             <TableHeadCell>ID</TableHeadCell>
             <TableHeadCell>Nome</TableHeadCell>
-            <TableHeadCell>Último corte</TableHeadCell>
+            <TableHeadCell>Última visita</TableHeadCell>
+            <TableHeadCell>Próxima visita</TableHeadCell>
             <TableHeadCell>Tipo de corte</TableHeadCell>
             <TableHeadCell>Tipo de cabelo</TableHeadCell>
             <TableHeadCell>Serviços feitos</TableHeadCell>
@@ -61,6 +62,7 @@ export function TableComponent() {
               </TableCell>
               <TableCell>{client.name}</TableCell>
               <TableCell>{client.lastCut}</TableCell>
+              <TableCell>{client.nextVisit}</TableCell>
               <TableCell>{client.cutType}</TableCell>
               <TableCell>{client.hairType}</TableCell>
               <TableCell>{client.servicesHad}</TableCell>

@@ -2,6 +2,7 @@ export interface Client {
   id: number;
   name: string;
   lastCut: string;
+  nextVisit: string;
   cutType: string;
   hairType: string;
   servicesHad: string;
