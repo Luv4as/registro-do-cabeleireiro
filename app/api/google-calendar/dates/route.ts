@@ -3,26 +3,19 @@ import { google } from "googleapis";
 
 export const runtime = "nodejs";
 
-function getServiceAccountKey() {
-  const rawKey = process.env.GOOGLE_PRIVATE_KEY;
+function createOAuthClient() {
+  const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN;
 
-  if (!rawKey) {
+  if (!clientId || !clientSecret || !refreshToken) {
     return undefined;
   }
 
-  const normalized = rawKey
-    .trim()
-    .replace(/^['"]|['"]$/g, "")
-    .replace(/\\n/g, "\n");
+  const auth = new google.auth.OAuth2(clientId, clientSecret);
+  auth.setCredentials({ refresh_token: refreshToken });
 
-  const keyBody = normalized
-    .replace(/-----BEGIN PRIVATE KEY-----/g, "")
-    .replace(/-----END PRIVATE KEY-----/g, "")
-    .replace(/\s+/g, "");
-
-  const wrappedBody = keyBody.match(/.{1,64}/g)?.join("\n") ?? keyBody;
-
-  return `-----BEGIN PRIVATE KEY-----\n${wrappedBody}\n-----END PRIVATE KEY-----\n`;
+  return auth;
 }
 
 function parseYear(value: string | null): number {
@@ -38,24 +31,17 @@ function parseYear(value: string | null): number {
 
 export async function GET(request: Request) {
   const calendarId = process.env.CALENDAR_ID;
-  const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-  const privateKey = getServiceAccountKey();
+  const auth = createOAuthClient();
   const year = parseYear(new URL(request.url).searchParams.get("year"));
 
-  if (!calendarId || !clientEmail || !privateKey) {
+  if (!calendarId || !auth) {
     return NextResponse.json(
-      { error: "Configuracao do Google Calendar incompleta no .env" },
+      { error: "Configuracao OAuth do Google Calendar incompleta no .env" },
       { status: 500 }
     );
   }
 
   try {
-    const auth = new google.auth.JWT({
-      email: clientEmail,
-      key: privateKey,
-      scopes: ["https://www.googleapis.com/auth/calendar.readonly"],
-    });
-
     const calendar = google.calendar({ version: "v3", auth });
     const timeMin = `${year}-01-01T00:00:00.000Z`;
     const timeMax = `${year + 1}-01-01T00:00:00.000Z`;
@@ -106,28 +92,61 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const calendarId = process.env.CALENDAR_ID;
-    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-    const privateKey = getServiceAccountKey();
-    const year = parseYear(new URL(request.url).searchParams.get("year"));
+  const calendarId = process.env.CALENDAR_ID;
+  const auth = createOAuthClient();
 
-    if (!calendarId || !clientEmail || !privateKey) {
+  if (!calendarId || !auth) {
     return NextResponse.json(
-      { error: "Configuracao do Google Calendar incompleta no .env" },
+      { error: "Configuracao OAuth do Google Calendar incompleta no .env" },
       { status: 500 }
     );
   }
 
   try {
 
-    const auth = new google.auth.JWT({
-      email: clientEmail,
-      key: privateKey,
-      scopes: ["https://www.googleapis.com/auth/calendar.readonly"],
+    const payload = (await request.json()) as {
+      date: string;
+      time: string;
+      clientEmail: string;
+      clientName: string;
+      clientId: number;
+      service: string;
+    };
+
+    if (!payload.date || !payload.time || !payload.clientName || !payload.clientEmail || !payload.service || !Number.isInteger(payload.clientId) || payload.clientId<= 0) {
+      return NextResponse.json(
+        {error: "Dados de agendamento inválidos"},
+        {status: 400}
+      );
+    }
+
+    const calendar = google.calendar({version: "v3", auth});
+    const start = new Date(payload.date + "T" + payload.time + ":00");
+    const end = new Date(start.getTime() + 60 * 60 * 1000);
+
+    const response = await calendar.events.insert({
+      calendarId,
+      sendUpdates: "all",
+      requestBody: {
+        summary: payload.service + " - " + payload.clientName,
+        description: "ClientID: " + payload.clientId,
+        attendees: [{email: payload.clientEmail, displayName: payload.clientName}],
+        start: { dateTime: start.toISOString()},
+        end: { dateTime: end.toISOString() },
+      },
     });
 
-    
-  }catch{
-
+    return NextResponse.json(
+      {
+        id: response.data.id,
+        status: response.data.status,
+        start: response.data.start,
+        end: response.data.end,
+      },
+      {status: 201}
+    );    
+  }catch (error) {
+    const message = error instanceof Error ? error.message : "Falha ao criar evento";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

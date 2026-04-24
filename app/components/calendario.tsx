@@ -139,7 +139,7 @@ export default function Calendario() {
 
 	return (
 		<div className="w-full overflow-x-auto rounded-bl-[28px]">
-			<div className="mb-3 flex items-center justify-between gap-3">
+			<div className="mb-3 flex items-center gap-6">
 				<button
 					type="button"
 					onClick={goToPreviousMonth}

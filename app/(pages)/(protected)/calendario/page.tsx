@@ -5,6 +5,7 @@ import Calendario from "../../../components/calendario";
 import ModalComponent from "@/app/components/modal";
 import { useState } from "react";
 import type { AppointmentData } from "@/app/lib/types/calendar";
+import { createCalendarEvent } from "@/app/lib/api/service/calendar";
 
 export default function CalendarioPage() {
   const [openAppointmentModal, setOpenAppointmentModal] = useState(false);
@@ -12,6 +13,7 @@ export default function CalendarioPage() {
       date: "",
       time: "",
       clientName: "",
+      clientEmail: "",
       clientId: 0,
       service: "",
     });
@@ -20,8 +22,21 @@ export default function CalendarioPage() {
     setOpenAppointmentModal(true);
   };
 
-  const handleCreateAppointment = () => {
-    
+  const handleCreateAppointment = async () => {
+    if (
+      !appointmentData.date ||
+      !appointmentData.time ||
+      appointmentData.clientId <= 0 ||
+      !appointmentData.clientName ||
+      !appointmentData.clientEmail ||
+      !appointmentData.service
+    ) {
+      alert(`preencha todos os campos do agendamento` + appointmentData.date + appointmentData.time + appointmentData.clientId + appointmentData.clientName + appointmentData.service);
+      return;
+    }
+
+    await createCalendarEvent(appointmentData);
+    setOpenAppointmentModal(false);
   };
 
   return (

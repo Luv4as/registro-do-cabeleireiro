@@ -20,13 +20,18 @@ interface ModalComponentProps{
   setAppointmentData?: Dispatch<SetStateAction<AppointmentData>>;
 }
 
-export default function ModalComponent({calendar, header, text, btnConfirm, btnCancel, OnConfirm, OnCancel, modalShow, OnClose, appointmentData, setAppointmentData}: ModalComponentProps){
+export default function ModalComponent({calendar, header, text, btnConfirm, btnCancel, OnConfirm, OnCancel, modalShow, OnClose, setAppointmentData}: ModalComponentProps){
   const { clients } = useClients();
 
-  const clientOptions = clients.map((client) => ({
+  const clientOptions = [
+    { value: 0, label: "" },
+    ...clients.map((client) => ({
     value: client.id,
     label: client.name,
-  }));
+    })),
+  ];
+
+  const serviceSelectOptions = ["", ...serviceOptions];
 
     return(
         <Modal dismissible show={modalShow} onClose={OnClose}>
@@ -66,13 +71,14 @@ export default function ModalComponent({calendar, header, text, btnConfirm, btnC
                       setAppointmentData?.((prev) => ({
                         ...prev,
                         clientId: Number(e.target.value),
-                        clientName: selectedClient?.label || "",  
+                        clientName: selectedClient?.label || "", 
+                        clientEmail: selectedClient ? clients.find(c => c.id === selectedClient.value)?.email || "" : "", 
                       }))
                     }}
                   />
                   <SelectComponent
                     label="Serviço"
-                    optionsStringArray={serviceOptions}
+                    optionsStringArray={serviceSelectOptions}
                     OnChange={(e) => {
                       const selectedService = e.target.value;
                       setAppointmentData?.((prev) => ({
